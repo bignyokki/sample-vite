@@ -8,13 +8,15 @@ function App() {
   const [records, setRecord] = useState([])
   const [isLoading, setIsLoading] = useState(true)
 
+  const getRecords = async () =>{
+    const _records = await getAllRecords()
+    console.log(_records)
+    setRecord(_records)
+  }
+
   useEffect(() => {
-    const getRecords = async () =>{
-      const _records = await getAllRecords()
-      setRecord(_records)
-      setIsLoading(false)
-    }
     getRecords()
+    setIsLoading(false)
   },[])
 
   return (
@@ -23,7 +25,7 @@ function App() {
       { isLoading ?
         <LoadingComponent /> :
         <div>
-          <InputForm />
+          <InputForm getRecords={() => getRecords()} />
           <RecordList records={records} />
         </div>
         }
