@@ -1,9 +1,21 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { getAllRecords } from "./utils/recordFunction"
+
 function App() {
+  const [records, setRecord] = useState([])
+
+  useEffect(() => {
+    const getRecords = async () =>{
+      const _records = await getAllRecords()
+      setRecord(_records)
+      calcSumTime(_records)
+    }
+    getRecords()
+  },[])
+
   const targetTime = 1000 // 目標時間
   const [text, setText] = useState("")
   const [time, setTime] = useState(0)
-  const [records, setRecord] = useState([])
   const [error, setError] = useState("")
   const [sumTime, setSumTime] = useState(0)
 
@@ -19,7 +31,6 @@ function App() {
     },
     0
   )
-    console.log(_sumTime)
     setSumTime(_sumTime)
   }
 
@@ -46,7 +57,7 @@ function App() {
       入力された学習内容：{text}<br />
       入力された学習時間：{time}時間<br />
       {records.map((record) => {
-        return <div key={record.title}>{record.title} {record.time}時間</div>
+        return <div key={record.id}>{record.title} {record.time}時間</div>
       })}
       <button onClick={onClickAdd}>登録</button>
       <div>{error}</div>
