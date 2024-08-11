@@ -9,8 +9,12 @@ function App() {
   const [isLoading, setIsLoading] = useState(true)
 
   const getRecords = async () =>{
-    const _records = await getAllRecords()
-    console.log(_records)
+    const response = await getAllRecords()
+    if (response.error) {
+      window.alert("データの取得に失敗しました")
+      return
+    }
+    const _records = response.data
     setRecord(_records)
   }
 

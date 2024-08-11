@@ -1,8 +1,8 @@
 import { supabase } from "./supabase"
 
 export const getAllRecords = async () => {
-  const records = await supabase.from("study-record").select("*")
-  return records.data
+  const response = await supabase.from("study-record").select("*")
+  return response
 }
 
 export const postRecord = async (postRecord) => {
@@ -12,5 +12,5 @@ export const postRecord = async (postRecord) => {
 
 export const deleteRecord = async (id) => {
   const response = await supabase.from("study-record").delete().eq('id', id)
-  return response.data
+  return response
 }

@@ -16,6 +16,10 @@ export const RecordList = (props) => {
 
   const onClickDelete = async (id) => {
     const response = await deleteRecord(id)
+    if (response.error) {
+      window.alert("データの削除に失敗しました。")
+      return
+    }
     getRecords()
   }
 
