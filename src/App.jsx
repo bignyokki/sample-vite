@@ -26,7 +26,7 @@ function App() {
         <LoadingComponent /> :
         <div>
           <InputForm getRecords={() => getRecords()} />
-          <RecordList records={records} />
+          <RecordList records={records} getRecords= {() => getRecords()} />
         </div>
         }
     </>
