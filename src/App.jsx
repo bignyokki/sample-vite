@@ -25,7 +25,7 @@ function App() {
 
   return (
     <>
-      <h1>学習記録一覧ver3</h1>
+      <h1>学習記録一覧</h1>
       { isLoading ?
         <LoadingComponent /> :
         <div>
