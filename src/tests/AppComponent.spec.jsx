@@ -15,7 +15,7 @@ const initialRecords = [{ id: 1, title: "Initial Record", time: 1 }];
 recordFunctions.getAllRecords.mockResolvedValue({ data: initialRecords, error: null })
 recordFunctions.deleteRecord.mockResolvedValue({ data: {}, error: null })
 
-describe("Title Test", () => {
+describe("App Test", () => {
   
   beforeEach(() => {
     jest.clearAllMocks();  // 各テストの前にモックをクリア
@@ -80,5 +80,21 @@ describe("Title Test", () => {
     // recordが削除されているか
     expect(screen.queryByAltText('Initial Record 1時間')).not.toBeInTheDocument()
     expect(screen.queryAllByText(/Record/i)).toHaveLength(0)
+  })
+
+  it("フォームが未入力で登録するとエラーが発生すること", async () => {
+    await act(async () => {
+      render(<App />);
+    })
+    // 値を入力
+    const titleInput = screen.getByTestId("input-title")
+    fireEvent.change(titleInput, { target: { value: '' } });
+    const timeInput = screen.getByTestId("input-time")
+    fireEvent.change(timeInput, { target: { value: 0 } });
+    const submitButton = screen.getByTestId("submit-button")
+    await act(async () => {
+      fireEvent.click(submitButton);
+    })
+    expect(screen.getByText("入力されていない項目があります")).toBeInTheDocument()
   })
 })
