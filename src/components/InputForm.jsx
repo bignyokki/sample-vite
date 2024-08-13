@@ -33,8 +33,6 @@ export const InputForm = (props) => {
     initialize()
   }
 
-
-
   return (
     <div>
       学習内容<input value={title} onChange={onChangeTitle} data-testid="input-title"/><br />

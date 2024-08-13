@@ -26,7 +26,7 @@ export const RecordList = (props) => {
   return (
     <div>
       {records.map((record) => {
-        return <div key={record.id}>{record.title} {record.time}時間 <button onClick={() => onClickDelete(record.id)}>削除</button></div>
+        return <div key={record.id}>{record.title} {record.time}時間 <button onClick={() => onClickDelete(record.id)} data-testid={"delete-" + record.id}>削除</button></div>
       })}
       <div>合計時間：{`${sumTime}/${targetTime}(h)`}</div>
     </div>

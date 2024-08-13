@@ -7,15 +7,21 @@ import * as recordFunctions from "../utils/recordFunction";
 
 // supabaseをモック
 jest.mock("../utils/supabase")
+// getAllRecords関数をモック
+jest.spyOn(recordFunctions, 'getAllRecords').mockImplementation()
+jest.spyOn(recordFunctions, 'deleteRecord').mockImplementation()
+// 初期データ
+const initialRecords = [{ id: 1, title: "Initial Record", time: 1 }];
+recordFunctions.getAllRecords.mockResolvedValue({ data: initialRecords, error: null })
+recordFunctions.deleteRecord.mockResolvedValue({ data: {}, error: null })
 
 describe("Title Test", () => {
-
+  
   beforeEach(() => {
     jest.clearAllMocks();  // 各テストの前にモックをクリア
   });
 
   it("タイトルが学習記録一覧であること", async () => {
-    // testId(title)を指定して取得
     await act( async() => {
       render(<App />);
     })
@@ -23,13 +29,7 @@ describe("Title Test", () => {
     expect(title).toHaveTextContent("学習記録一覧")
   })
 
-  it("取得したレコードが　表示されていること", async () => {
-    // getAllRecords関数をモック
-    jest.spyOn(recordFunctions, 'getAllRecords').mockImplementation();
-    // 初期データ
-    const initialRecords = [{ id: 1, title: "Initial Record", time: 1 }];
-    // `getAllRecords` をモックして初期データを返すようにする
-    recordFunctions.getAllRecords.mockResolvedValueOnce({ data: initialRecords, error: null })
+  it("取得したレコードが表示されていること", async () => {
     // コンポーネントをレンダリング
     await act(async () => {
       render(<App />);
@@ -39,11 +39,6 @@ describe("Title Test", () => {
   })
 
   it("登録ボタンを押すと更新されたレコードが表示されていること", async () => {
-    // getAllRecords関数をモック
-    jest.spyOn(recordFunctions, 'getAllRecords').mockImplementation(1);
-    // 初期データ
-    const initialRecords = [{ id: 1, title: "Initial Record", time: 1 }];
-    recordFunctions.getAllRecords.mockResolvedValueOnce({ data: initialRecords, error: null })
     await act(async () => {
       render(<App />);
     })
@@ -66,6 +61,24 @@ describe("Title Test", () => {
     expect(screen.getByText("update Record 2時間")).toBeInTheDocument()
     // 初期データと合わせ2要素が表示されているか
     expect(screen.getAllByText(/Record/i)).toHaveLength(2)
+  })
 
+  it("削除ボタンを押すとレコードが一つ表示されていること", async () => {
+    await act(async () => {
+      render(<App />);
+    })
+    // 初期データのrecordが表示されているか
+    expect(screen.getByText("Initial Record 1時間")).toBeInTheDocument();
+    // 初期データのrecordsの要素数の検証
+    expect(screen.getAllByText(/Record/i)).toHaveLength(1)
+    // 削除ボタン取得
+    const deleteButton = screen.getByTestId("delete-1")
+    recordFunctions.getAllRecords.mockResolvedValueOnce({ data: [], error: null })
+    await act(async () => {
+      fireEvent.click(deleteButton);
+    })
+    // recordが削除されているか
+    expect(screen.queryByAltText('Initial Record 1時間')).not.toBeInTheDocument()
+    expect(screen.queryAllByText(/Record/i)).toHaveLength(0)
   })
 })
