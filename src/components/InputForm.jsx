@@ -37,11 +37,11 @@ export const InputForm = (props) => {
 
   return (
     <div>
-      学習内容<input value={title} onChange={onChangeTitle} /><br />
-      学習時間<input type="number" value={time} onChange={onChangeTime} /><br />
+      学習内容<input value={title} onChange={onChangeTitle} data-testid="input-title"/><br />
+      学習時間<input type="number" value={time} onChange={onChangeTime} data-testid="input-time"/><br />
       入力された学習内容：{title}<br />
       入力された学習時間：{time}時間<br />
-      <button onClick={onClickAdd}>登録</button>
+      <button onClick={onClickAdd} data-testid="submit-button">登録</button>
       <div>{error}</div>
     </div>
   )
