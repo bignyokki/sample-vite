@@ -38,7 +38,7 @@ jobs:
         env:
           VITE_SUPABASE_URL: ${{secrets.SUPABASE_URL}}
           VITE_SUPABASE_KEY: ${{secrets.SUPABASE_KEY}}
-      - name: Upload Artifact
+      - name: Upload dist
         uses: actions/upload-artifact@v3
         with:
           name: dist

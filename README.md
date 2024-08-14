@@ -1,8 +1,44 @@
-# React + Vite
+# サービス名
+学習記録残す君
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# サービスの説明
+- 学習用アプリケーションです
+- 学習記録を追加、削除することができます
+- フロント: React, Vite
+- バックエンド(DB): supabase
+- デプロイ: firebase
+- テスト: Jest
+- CICD: github actions
 
-Currently, two official plugins are available:
+# 環境変数
+.envに
+- SUPABASE_URL
+- SUPABASE_KEY
+が必要です  
+参考：https://supabase.com/docs/reference/javascript/installing  
+またgithubのActions secrets and variablesのRepository secretsに  
+上記の二つに加え  
+- FIREBASE_KEY
+- FIREBASE_PROJECT_ID
+- FIREBASE_TOKEN
+が必要です
+参考：https://zenn.dev/jinwatanabe/articles/4026d373383739
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# 起動の仕方
+## ローカル環境
+```
+$ npm run dev
+```
+
+## TEST
+```
+$ npm test
+```
+
+## build + deploy
+```
+$ make deploy
+```
+
+## CI/CD
+git push時に、test + build + deployを行います
