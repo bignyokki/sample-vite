@@ -23,6 +23,7 @@ jobs:
   build:
     name: build
     runs-on: ubuntu-latest
+    needs: test
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -36,7 +37,7 @@ jobs:
         run: npm run build
         env:
           VITE_SUPABASE_URL: ${{secrets.SUPABASE_URL}}
-          VITE_SUPABASE_ANON_KEY: ${{secrets.SUPABASE_KEY}}
+          VITE_SUPABASE_KEY: ${{secrets.SUPABASE_KEY}}
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
